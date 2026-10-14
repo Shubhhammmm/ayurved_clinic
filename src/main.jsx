@@ -1,0 +1,64 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { Menu, X, Leaf, HeartPulse, Brain, Baby, Activity, CalendarDays, MapPin, Phone, Mail, Clock, ArrowUpRight, ShieldCheck, Stethoscope, Sparkles, MessageCircle, ChevronRight } from 'lucide-react';
+import './styles.css';
+import logo from './assets/clinic-logo.jpg';
+import poster from './assets/suvarn-prashan-poster.jpg';
+
+// EDIT CLINIC DETAILS HERE: all contact information and clinic timings are kept in one place.
+const clinic = {
+  name: 'Shree Vishwanayak',
+  subtitle: 'Multispeciality Ayurveda Panchkarma',
+  doctor: 'Dr. Mayank Asati',
+  qualifications: 'BAMS – Bhopal | CAP – Pune | CCH & CSD – Mumbai',
+  role: 'Ayurvedacharya | Nadi Parangat Vaidya',
+  phone: '9529631551',
+  email: 'shreevishwanayak@gmail.com',
+  address: 'Dhagat Chouraha, Jain Dharmshala Road, Damoh (M.P.)',
+  timings: '10 AM – 3 PM  |  5 PM – 9 PM',
+  suvarnDate: 'फोन पर पुष्टि करें',
+};
+const services = [
+  { icon: Baby, title: 'बाल स्वास्थ्य', enTitle: 'Child Wellness', desc: 'बच्चों की सेहत और सामान्य देखभाल', enDesc: 'General wellness and care for children' },
+  { icon: HeartPulse, title: 'पाचन एवं पेट', enTitle: 'Digestive Health', desc: 'पाचन संबंधी समस्याओं पर परामर्श', enDesc: 'Consultation for digestive concerns' },
+  { icon: Brain, title: 'मानसिक स्वास्थ्य', enTitle: 'Mind & Wellbeing', desc: 'तनाव और बेहतर दिनचर्या के लिए मार्गदर्शन', enDesc: 'Guidance for stress and healthy routines' },
+  { icon: Activity, title: 'जोड़ों एवं मांसपेशियों', enTitle: 'Joint & Muscle Care', desc: 'दर्द और गतिशीलता से जुड़ा परामर्श', enDesc: 'Consultation for pain and mobility concerns' },
+  { icon: Leaf, title: 'आयुर्वेदिक परामर्श', enTitle: 'Ayurvedic Consultation', desc: 'व्यक्ति के अनुसार जीवनशैली मार्गदर्शन', enDesc: 'Personalised lifestyle guidance' },
+  { icon: Sparkles, title: 'पंचकर्म', enTitle: 'Panchkarma', desc: 'उपयुक्तता के आकलन के बाद उपचार विकल्प', enDesc: 'Options discussed after suitability assessment' },
+];
+const benefits = [
+  { icon: ShieldCheck, title: 'व्यक्तिगत परामर्श', enTitle: 'Personalised Consultation', text: 'आपकी जरूरतों और स्वास्थ्य इतिहास के अनुसार', enText: 'Based on your needs and health history' },
+  { icon: Leaf, title: 'आयुर्वेदिक दृष्टिकोण', enTitle: 'Ayurvedic Approach', text: 'आहार, दिनचर्या और पारंपरिक पद्धतियों पर मार्गदर्शन', enText: 'Guidance on diet, routine and traditional practices' },
+  { icon: Stethoscope, title: 'डॉक्टर से बात करें', enTitle: 'Speak with the Doctor', text: 'उपचार से पहले अपनी समस्या और विकल्प समझें', enText: 'Understand your concern and options before treatment' },
+];
+function App() {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [language, setLanguage] = React.useState('hi');
+  const en = language === 'en';
+  React.useEffect(() => { document.documentElement.lang = en ? 'en' : 'hi'; }, [en]);
+  const whatsapp = `https://wa.me/91${clinic.phone}?text=${encodeURIComponent('नमस्ते, मुझे Shree Vishwanayak Ayurveda Clinic में consultation के लिए जानकारी चाहिए।')}`;
+  const nav = en ? [['About Us','#about'],['Services','#services'],['Suvarn Prashan','#suvarn'],['Contact','#contact']] : [['हमारे बारे में','#about'],['सेवाएँ','#services'],['स्वर्ण प्राशन','#suvarn'],['संपर्क करें','#contact']];
+  return <div className="site-shell">
+    <div className="top-strip"><span><MapPin size={14}/>{clinic.address}</span><span className="top-hours"><Clock size={14}/>{clinic.timings}</span></div>
+    <header className="header">
+      <a href="#home" className="brand"><img src={logo} alt="Shree Vishwanayak clinic logo"/><span><strong>{clinic.name}</strong><small>{clinic.subtitle}</small><em>आयुर्वेदीय चिकित्सालय एवं पंचकर्म केंद्र</em></span></a>
+      <button className="language-toggle" onClick={()=>setLanguage(en ? 'hi' : 'en')} aria-label="Switch language">{en ? 'हिंदी' : 'EN'}</button><button className="menu-toggle" aria-label="Toggle menu" onClick={()=>setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</button>
+      <nav className={menuOpen?'nav nav-open':'nav'}>{nav.map(([label,href])=><a key={href} href={href} onClick={()=>setMenuOpen(false)}>{label}</a>)}<a className="nav-cta" href={whatsapp} target="_blank" rel="noreferrer"><CalendarDays size={17}/> {en ? 'Book Appointment' : 'अपॉइंटमेंट पूछें'}</a></nav>
+    </header>
+    <main>
+      <section className="hero" id="home">
+        <div className="hero-copy"><div className="eyebrow"><Leaf size={16}/> {en ? 'TRADITION • CARE • BALANCE' : 'परंपरा • देखभाल • संतुलन'}</div><h1>{en ? <>A healthier life<br/><span>with Ayurveda</span></> : <>आयुर्वेद के साथ<br/><span>स्वस्थ जीवन की ओर</span></>}</h1><p>{en ? 'Personalised Ayurvedic consultation and care to support balance in your body, mind and lifestyle.' : 'शरीर, मन और जीवनशैली के संतुलन के लिए व्यक्तिगत आयुर्वेदिक परामर्श और देखभाल।'}</p><div className="hero-actions"><a className="btn btn-primary" href={whatsapp} target="_blank" rel="noreferrer">{en ? 'Contact for Consultation' : 'परामर्श के लिए संपर्क करें'} <ArrowUpRight size={18}/></a><a className="text-link" href="#services">{en ? 'Explore Services' : 'हमारी सेवाएँ देखें'} <ChevronRight size={17}/></a></div><div className="trust-row"><span><ShieldCheck/> {en ? 'Guided by a practitioner' : 'अनुभवी मार्गदर्शन'}</span><span><Leaf/> {en ? 'Ayurvedic approach' : 'आयुर्वेदिक दृष्टिकोण'}</span><span><HeartPulse/> {en ? 'Personalised care' : 'व्यक्तिगत देखभाल'}</span></div></div>
+        <div className="hero-visual"><div className="sun-disc"></div><div className="hero-card"><span className="mini-label">{en ? 'YOUR AYURVEDA CLINIC' : 'आपका आयुर्वेदिक क्लिनिक'}</span><h2>{clinic.doctor}</h2><p>{clinic.qualifications}</p><small>{clinic.role}</small><div className="doctor-mark"><Stethoscope size={34}/><span>{en ? 'Ayurveda • Panchkarma' : 'आयुर्वेद • पंचकर्म'}</span></div></div><div className="floating-leaf leaf-one"><Leaf/></div><div className="floating-leaf leaf-two"><Leaf/></div><div className="hero-note"><span className="note-icon"><Sparkles/></span><span><b>{en ? 'Holistic Care' : 'समग्र देखभाल'}</b><small>{en ? 'Care tailored to each person' : 'हर व्यक्ति की जरूरत अलग है'}</small></span></div></div>
+      </section>
+      <section className="intro-band"><div className="intro-icon"><Leaf/></div><p><b>{en ? 'Good health begins with clear information.' : 'स्वास्थ्य की शुरुआत सही जानकारी से होती है।'}</b><br/>{en ? 'Contact the clinic to discuss your concern, available options and suitability.' : 'अपनी समस्या, उपचार के विकल्प और उपयुक्तता को समझने के लिए क्लिनिक से संपर्क करें।'}</p><a href={whatsapp} target="_blank" rel="noreferrer">{en ? 'Get in touch' : 'बात करें'} <ArrowUpRight size={16}/></a></section>
+      <section className="section services-section" id="services"><div className="section-heading"><div><span className="eyebrow">{en ? 'HOW WE CAN HELP' : 'हम आपकी कैसे मदद कर सकते हैं'}</span><h2>{en ? 'Our Services' : 'हमारी सेवाएँ'}</h2></div><p>{en ? 'Speak with the doctor first for guidance suited to your needs.' : 'सही सलाह और व्यक्तिगत देखभाल के लिए पहले डॉक्टर से परामर्श लें।'}</p></div><div className="service-grid">{services.map(({icon:Icon,title,enTitle,desc,enDesc},i)=><article className="service-card" key={title}><div className={`service-icon tone-${i%3}`}><Icon size={24}/></div><h3>{en ? enTitle : title}</h3><p>{en ? enDesc : desc}</p><a href={whatsapp} target="_blank" rel="noreferrer" aria-label={`${en ? enTitle : title} ${en ? 'enquiry' : 'के लिए पूछें'}`}><ArrowUpRight size={18}/></a></article>)}</div><p className="medical-note">{en ? 'Services and treatments depend on an assessment and the doctor’s advice.' : 'सेवाएँ और उपचार आपकी स्थिति के आकलन तथा डॉक्टर की सलाह पर निर्भर करते हैं।'}</p></section>
+      <section className="suvarn-section" id="suvarn"><div className="suvarn-copy"><span className="eyebrow"><Baby size={16}/> {en ? 'FOR CHILDREN & PARENTS' : 'बच्चों के लिए विशेष जानकारी'}</span><h2>{en ? 'Suvarn Prashan' : 'स्वर्ण प्राशन'}</h2><h3>{en ? 'Ayurvedic guidance for children' : 'बच्चों के स्वास्थ्य के लिए आयुर्वेदिक परामर्श'}</h3><p>{en ? 'Suvarn Prashan is a traditional Ayurvedic practice. Ask a qualified practitioner about your child’s age, health and suitability.' : 'स्वर्ण प्राशन एक पारंपरिक आयुर्वेदिक प्रक्रिया है। अपने बच्चे की उम्र, स्वास्थ्य और उपयुक्तता के बारे में योग्य चिकित्सक से जानकारी लें।'}</p><div className="suvarn-meta"><div><CalendarDays/><span><small>{en ? 'Next date' : 'पोस्टर में दी गई अगली तिथि'}</small><b>{en ? 'Please confirm by phone' : clinic.suvarnDate}</b></span></div><div><Baby/><span><small>{en ? 'Age group mentioned' : 'पोस्टर में बताया गया आयु समूह'}</small><b>{en ? '0–16 years' : '0–16 वर्ष'}</b></span></div></div><a className="btn btn-primary" href={whatsapp} target="_blank" rel="noreferrer">{en ? 'Ask About Dates & Process' : 'तिथि और प्रक्रिया पूछें'} <ArrowUpRight size={18}/></a><p className="disclaimer">{en ? 'Dates may change—please confirm by phone before visiting. Discuss claims and suitability for your child with the doctor.' : 'तिथि बदल सकती है—आने से पहले फोन पर पुष्टि करें। लाभों के दावों और बच्चे के लिए उपयुक्तता पर डॉक्टर से चर्चा करें।'}</p></div><div className="poster-wrap"><img src={poster} alt="क्लिनिक द्वारा साझा किया गया स्वर्ण प्राशन सूचना पोस्टर"/><div className="poster-caption">{en ? 'Clinic Suvarn Prashan information poster' : 'क्लिनिक का स्वर्ण प्राशन सूचना पोस्टर'}</div></div></section>
+      <section className="section about-section" id="about"><div className="about-art"><div className="about-logo"><img src={logo} alt="Clinic emblem"/></div><div className="about-stamp"><Leaf/><span>{en ? <>Natural care<br/>and balanced living</> : <>प्राकृतिक देखभाल<br/>और संतुलित जीवनशैली</>}</span></div></div><div className="about-copy"><span className="eyebrow">{en ? 'ABOUT THE CLINIC' : 'हमारे बारे में'}</span><h2>{en ? 'Shree Vishwanayak Ayurveda Panchkarma Centre' : 'श्री विश्वनायक आयुर्वेद पंचकर्म केंद्र'}</h2><p className="about-location">{en ? 'Damoh, Madhya Pradesh' : 'दमोह, मध्य प्रदेश'}</p><p>{en ? 'Our aim is to help people understand their health concerns and make informed decisions together with the doctor.' : 'हमारा उद्देश्य है कि हर व्यक्ति को अपनी स्वास्थ्य संबंधी जरूरतों के बारे में स्पष्ट जानकारी मिले और वह डॉक्टर के साथ मिलकर सोच-समझकर निर्णय ले सके।'}</p><div className="benefit-list">{benefits.map(({icon:Icon,title,enTitle,text,enText})=><div className="benefit" key={title}><span><Icon size={21}/></span><div><b>{en ? enTitle : title}</b><p>{en ? enText : text}</p></div></div>)}</div><a className="text-link" href={whatsapp} target="_blank" rel="noreferrer">{en ? 'Contact the Clinic' : 'क्लिनिक से संपर्क करें'} <ChevronRight size={17}/></a></div></section>
+      <section className="contact-section" id="contact"><div className="contact-copy"><span className="eyebrow">{en ? 'CONTACT US' : 'हमसे संपर्क करें'}</span><h2>{en ? 'Let’s talk and answer your questions.' : 'आपके सवालों के जवाब के लिए हमसे बात करें।'}</h2><p>{en ? 'Call or WhatsApp us about appointments, available services or before visiting the clinic.' : 'अपॉइंटमेंट, उपलब्ध सेवाओं या क्लिनिक आने से पहले जानकारी के लिए कॉल या WhatsApp करें।'}</p><a className="btn btn-light" href={whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={18}/> {en ? 'Message on WhatsApp' : 'WhatsApp पर पूछें'}</a></div><div className="contact-cards"><a href={`tel:+91${clinic.phone}`} className="contact-card"><span><Phone/></span><small>{en ? 'Call / WhatsApp' : 'कॉल / WhatsApp'}</small><b>+91 {clinic.phone}</b><ArrowUpRight className="card-arrow"/></a><a href={`mailto:${clinic.email}`} className="contact-card"><span><Mail/></span><small>Email</small><b className="email-text">{clinic.email}</b><ArrowUpRight className="card-arrow"/></a><div className="contact-card"><span><Clock/></span><small>{en ? 'Clinic Hours' : 'क्लिनिक का समय'}</small><b>{clinic.timings}</b></div><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(clinic.address)}`} target="_blank" rel="noreferrer" className="contact-card"><span><MapPin/></span><small>{en ? 'Clinic Address' : 'क्लिनिक का पता'}</small><b>{clinic.address}</b><ArrowUpRight className="card-arrow"/></a></div></section>
+    </main>
+    <footer className="footer"><a href="#home" className="footer-brand"><img src={logo} alt=""/><span><b>{clinic.name}</b><small>{clinic.subtitle}</small></span></a><p>{en ? 'One step towards a healthier life.' : 'स्वस्थ जीवन की ओर, एक कदम।'}</p><span className="copyright">© {new Date().getFullYear()} Shree Vishwanayak Ayurveda. All rights reserved.</span></footer>
+    <a className="floating-whatsapp" href={whatsapp} target="_blank" rel="noreferrer" aria-label={en ? "Contact on WhatsApp" : "WhatsApp पर संपर्क करें"}><MessageCircle size={23}/><span>WhatsApp</span></a>
+  </div>;
+}
+
+createRoot(document.getElementById('root')).render(<React.StrictMode><App/></React.StrictMode>);
